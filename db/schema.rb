@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725120831) do
+ActiveRecord::Schema.define(version: 20150726060320) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "parent"
+    t.integer  "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.integer  "post_id",      null: false
@@ -40,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150725120831) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "author_id"
+    t.integer  "user_id"
     t.string   "title",           null: false
     t.string   "status",          null: false
     t.string   "comment_status"
@@ -48,18 +56,25 @@ ActiveRecord::Schema.define(version: 20150725120831) do
     t.string   "password_digest"
     t.integer  "commnet_count"
     t.text     "content"
-    t.integer  "tag_id"
+    t.string   "meta_keywords"
     t.string   "permalink"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
-  add_index "posts", ["author_id"], name: "index_posts_on_author_id"
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+
+  create_table "posts_categories", id: false, force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_id"
+  end
+
+  add_index "posts_categories", ["post_id", "category_id"], name: "index_posts_categories_on_post_id_and_category_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "username",               null: false
-    t.string   "password_digest",        null: false
-    t.string   "displayed_name"
+    t.string   "username",                            null: false
+    t.string   "password_digest",                     null: false
+    t.string   "full_name"
     t.string   "bio"
     t.string   "avatar"
     t.string   "reset_password_token"
@@ -69,8 +84,10 @@ ActiveRecord::Schema.define(version: 20150725120831) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "access_level"
+    t.string   "email",                  default: "", null: false
   end
 
 end

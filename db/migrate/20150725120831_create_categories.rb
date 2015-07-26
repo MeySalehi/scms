@@ -1,8 +1,14 @@
 class CreateCategories < ActiveRecord::Migration
-  def change
-  #   create_table :categories do |t|
+  def up
+    create_table :categories do |t|
+    	t.string	:name
+    	t.integer	:parent
+    	t.integer	:level
+      t.timestamps null: false
+    end
+  end
 
-  #     t.timestamps null: false
-  #   end
+  def down
+  	drop_table :categories
   end
 end

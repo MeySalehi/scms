@@ -10,7 +10,7 @@ class CreatePosts < ActiveRecord::Migration
     	t.string		:password_digest
     	t.integer		:commnet_count
     	t.text			:content
-    	t.integer		:tag_id
+    	t.string		:meta_keywords
     	t.string		:permalink
 
       t.timestamps 									null: false
