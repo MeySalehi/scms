@@ -17,14 +17,20 @@ Rails.application.routes.draw do
 				get "page/:id(/.:format)" => :index
 			end
 		end
+		resources :caregories do
+			collection do
+				get "page/:id(/.:format)" => :index
+			end
+		end
 	end
 
 	#public posts controller actions:
 	#['index', 'show', 'page', 'category', 'search', 'commet']
 	resources :posts do
 		collection do
-			get "page/:id(/.:format)" => :index
-			get :search
+			get "page/:id(.:format)" => :index
+			get "search/:id(.:format)" => :search
+			get "category/:id(.:format)" => :category
 			post :comment
 		end
 	end
