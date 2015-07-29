@@ -1,4 +1,46 @@
 Rails.application.routes.draw do
+
+	namespace :admin do
+		resources :posts	do
+			collection do
+				get "page/:id(/.:format)" => :index
+			end
+			resources :comments
+		end
+		resources :settings do
+			collection do
+				resources :authors
+			end
+		end
+		resources :comments do
+			collection do
+				get "page/:id(/.:format)" => :index
+			end
+		end
+	end
+
+	#public posts controller actions:
+	#['index', 'show', 'page', 'category', 'search', 'commet']
+	resources :posts do
+		collection do
+			get "page/:id(/.:format)" => :index
+			get :search
+			post :comment
+		end
+	end
+
+	#Authors controller Actions: ['authors', 'page', 'profile']
+	resources :authors do
+		collection do
+			get "page/:id(/.:format)" => :index
+		end
+	end
+
+	get	'@:username'	=> 'authors#profile'
+
+	root 'posts#index'
+  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
