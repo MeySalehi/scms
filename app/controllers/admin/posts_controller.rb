@@ -14,9 +14,6 @@ class Admin::PostsController < ApplicationController
   def update
   end
 
-  def delete
-  end
-
-  def distroy
+  def destroy
   end
 end

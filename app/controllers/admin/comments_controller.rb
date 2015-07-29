@@ -2,16 +2,10 @@ class Admin::CommentsController < ApplicationController
   def index
   end
 
-  def approve
-  end
-
   def edit
   end
 
   def update
-  end
-
-  def answer
   end
 
   def create
@@ -20,6 +14,6 @@ class Admin::CommentsController < ApplicationController
   def delete
   end
 
-  def distroy
+  def destroy
   end
 end
