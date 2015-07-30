@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20150726060320) do
   create_table "comments", force: :cascade do |t|
     t.integer  "post_id",      null: false
     t.integer  "user_id"
-    t.string   "author",       null: false
-    t.string   "author_email", null: false
+    t.string   "author"
+    t.string   "author_email"
     t.string   "author_url"
     t.text     "content"
     t.string   "meta_keyword"
