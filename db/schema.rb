@@ -49,17 +49,16 @@ ActiveRecord::Schema.define(version: 20150726060320) do
 
   create_table "posts", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "title",           null: false
-    t.string   "status",          null: false
+    t.string   "title",          null: false
+    t.string   "status",         null: false
     t.string   "comment_status"
     t.datetime "publish_at"
-    t.string   "password_digest"
     t.integer  "commnet_count"
     t.text     "content"
     t.string   "meta_keywords"
     t.string   "permalink"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"

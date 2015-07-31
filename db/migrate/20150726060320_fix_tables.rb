@@ -7,6 +7,7 @@ class FixTables < ActiveRecord::Migration
   	rename_column(:posts, :author_id, :user_id)
     change_column(:comments, :author, :string, null: true)
     change_column(:comments, :author_email, :string, null: true)
+    remove_column(:posts, :password_digest)
   	# -------------------------
   	create_table :posts_categories, :id => false do |t|
   		t.integer :post_id
@@ -18,6 +19,7 @@ class FixTables < ActiveRecord::Migration
 
   def down
   	drop_table :posts_categories
+    add_column(:posts, :password_digest)
     change_column(:comments, :author, :string, null: false)
     change_column(:comments, :author_email, :string, null: false)
   	rename_column(:posts, :user_id,		:author_id)
