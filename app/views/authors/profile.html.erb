@@ -1,2 +1,18 @@
 <h1>Authors#profile</h1>
 <p>Find me in app/views/authors/profile.html.erb</p>
+<hr>
+<h2><%= @author.full_name %></h2>
+<p>bio: <%= @author.bio %></p>
+<p><%= mail_to @author.email, @author.email %></p>
+<hr>
+<h2>Posts</h2>
+<ul>
+	<% @author_posts.each do |post| %>
+	<li><h3><%= link_to post.title, post_path(post.permalink) %></h3></li>
+	<li><%= post.user.full_name %></li>
+	<li><%= post.status %></li>
+	<li><%= post.publish_at %></li>
+	<li><%= post.content %></li>
+	<hr>
+	<% end %>
+</ul>
