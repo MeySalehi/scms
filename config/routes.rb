@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 	#['index', 'show', 'page', 'category', 'search', 'commet']
 	resources :posts do
 		collection do
-			get "page/:id(.:format)" => :index
+			get "page/:id(.:format)" => :page
 			get "search/:id(.:format)" => :search
 			get "category/:id(.:format)" => :category
 			post :comment
