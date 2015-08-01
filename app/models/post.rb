@@ -1,6 +1,10 @@
 class Post < ActiveRecord::Base
-	# has_secure_password
-	belongs_to 	:users
+
+	belongs_to 	:user
 	has_many	:comments
 	has_and_belongs_to_many :categories, :join_table => :posts_categories
+
+	scope :recent_post, lambda { |num| last(num).reverse }
+	scope :search, lambda { |query| where(["title LIKE ?", "%#{query}%" ]) }
+	scope :page, lambda { |page, num| limit(num).last((num * page)).first(num).reverse} 
 end
