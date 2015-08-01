@@ -1,2 +1,14 @@
 <h1>Posts#page</h1>
 <p>Find me in app/views/posts/page.html.erb</p>
+<p>this page has a bug :)</p>
+<hr>
+<ul>
+	<% @posts.each do |post| %>
+	<li><h3><%= link_to post.title, post_path(post.permalink) %></h3></li>
+	<li><%= post.user.full_name %></li>
+	<li><%= post.status %></li>
+	<li><%= post.publish_at %></li>
+	<li><%= post.content %></li>
+	<hr>
+	<% end %>
+</ul>

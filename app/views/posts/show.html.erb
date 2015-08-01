@@ -1,2 +1,25 @@
 <h1>Posts#show</h1>
 <p>Find me in app/views/posts/show.html.erb</p>
+<p>Comments has bug and need edit</p>
+<hr>
+
+<ul>
+	<li><h1><%= @post.title %></h1></li>
+	<li>By <%= link_to @post.user.full_name, "/@#{@post.user.username}"%></li>
+	<li><%= @post.content %></li>
+	<li><%= @post.publish_at %></li>
+	<li><%= @post.meta_keywords %></li>
+</ul>
+<hr>
+<ul>
+<h3>Comments</h3>
+<% @post.comments.each do |comment| %>
+	<% if comment.user %>
+		<li><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></li>
+	<% else %>
+		<li><%= link_to comment.author, "http://" + comment.author_url.to_s %> </li>
+	<% end %>
+	<li><%= comment.content %></li>
+	<hr>
+<% end %>
+</ul>
