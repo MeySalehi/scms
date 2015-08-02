@@ -22,6 +22,11 @@ Rails.application.routes.draw do
 				get "page/:id(.:format)" => :index
 			end
 		end
+    resources :uploads do
+      collection do
+        get "page/:id(.:format)" => :index
+      end
+    end
 	end
 
 	#public posts controller actions:
@@ -41,8 +46,8 @@ Rails.application.routes.draw do
 			get "page/:id(.:format)" => :index
 		end
 	end
-  
-  resources :uploads
+
+  resources :files
 
 	get	'@:username(.:format)'	=> 'authors#profile'
 
