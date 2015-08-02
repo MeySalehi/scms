@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 	namespace :admin do
 		resources :posts	do
 			collection do
-				get "page/:id(/.:format)" => :index
+				get "page/:id(.:format)" => :index
 			end
 			resources :comments
 		end
@@ -14,12 +14,12 @@ Rails.application.routes.draw do
 		end
 		resources :comments do
 			collection do
-				get "page/:id(/.:format)" => :index
+				get "page/:id(.:format)" => :index
 			end
 		end
 		resources :caregories do
 			collection do
-				get "page/:id(/.:format)" => :index
+				get "page/:id(.:format)" => :index
 			end
 		end
 	end
@@ -38,13 +38,13 @@ Rails.application.routes.draw do
 	#Authors controller Actions: ['authors', 'page', 'profile']
 	resources :authors do
 		collection do
-			get "page/:id(/.:format)" => :index
+			get "page/:id(.:format)" => :index
 		end
 	end
   
   resources :uploads
 
-	get	'@:username'	=> 'authors#profile'
+	get	'@:username(.:format)'	=> 'authors#profile'
 
 	root 'posts#index'
   
