@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726060320) do
+ActiveRecord::Schema.define(version: 20150802050230) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -69,6 +69,13 @@ ActiveRecord::Schema.define(version: 20150726060320) do
   end
 
   add_index "posts_categories", ["post_id", "category_id"], name: "index_posts_categories_on_post_id_and_category_id"
+
+  create_table "uploads", force: :cascade do |t|
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.string   "title"
+    t.datetime "create_at"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "username",                            null: false
