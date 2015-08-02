@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 			get "page/:id(/.:format)" => :index
 		end
 	end
+  
+  resources :uploads
 
 	get	'@:username'	=> 'authors#profile'
 
