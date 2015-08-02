@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(version: 20150802050230) do
     t.datetime "updated_at",                          null: false
     t.string   "access_level"
     t.string   "email",                  default: "", null: false
+    t.string   "public_email"
+    t.boolean  "profile_visible"
   end
 
 end

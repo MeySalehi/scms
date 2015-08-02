@@ -1,6 +1,8 @@
 class FixTables < ActiveRecord::Migration
   
   def up
+    add_column(:users, :public_email, :string)
+    add_column(:users, :profile_visible, :boolean)
   	add_column(:users, :access_level,	:string)
   	add_column(:users, :email, :string,:null => false, :after => :username, :default => "" )
   	rename_column(:users, :displayed_name, :full_name)
@@ -26,5 +28,7 @@ class FixTables < ActiveRecord::Migration
   	rename_column(:users, :full_name,	:displayed_name)
   	remove_column(:users, :email)
 		remove_column(:users, :access_level)
+    remove_column(:users, :public_email)
+    remove_column(:users, :profile_visible)
   end
 end
