@@ -15,6 +15,7 @@ class PostsController < ApplicationController
     unless @post
       render file: "#{Rails.root}/public/404.html"
     end
+    @comment = Comment.new
   end
 
   def category
@@ -36,5 +37,25 @@ class PostsController < ApplicationController
   end
 
   def comment
+
+    comment = Comment.new(commnet_params)
+    permalink = params.require(:comment)[:post_permalink]
+    puts permalink
+
+    if comment.save
+      flash[:notice] = "Your Comment Successfuly Published."
+      return redirect_to post_path(permalink)
+    else
+      flash[:error] = "Sorry, we have an error!"
+      return redirect_to post_path(permalink)
+    end
+
   end
+
+  private
+    def commnet_params
+      p = params.require(:comment).permit(:post_id, :author, :author_url, :author_email, :content)
+      p[:post_id] = p[:post_id].to_i
+      p
+    end
 end

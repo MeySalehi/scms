@@ -11,8 +11,41 @@
 	<li><%= @post.meta_keywords %></li>
 </ul>
 <hr>
+<% if !flash[:notice].blank? %>
+	<h3 style="color:green" ><%= flash[:notice] %></h3>
+<%elsif !flash[:error].blank? %>
+	<h3 style="color:green" ><%= flash[:error] %></h3>
+<% end %>
+<h3>Leave your comment:</h3>
+<table>
+<%= form_for(@comment, :method => "post", :url => comment_posts_path) do |f| %>
+	<%= f.hidden_field :post_id ,:value => @post.id %>
+	<tr>
+		<th><%= f.label(:author) %></th>
+		<td><%= f.text_field :author %><td>
+	</tr>
+	<tr>
+		<th><%= f.label(:author_url) %></th>
+		<td><%= f.text_field :author_url %></td>
+	</tr>
+	<tr>
+		<th><%= f.label(:author_email) %></th>
+		<td><%= f.text_field :author_email %></td>
+	</tr>
+	<tr>
+		<th><%= f.label(:content) %></th>
+		<td><%= f.text_area  :content %></td>
+	</tr>
+	<tr>
+
+		<th></th>
+		<td><%= submit_tag("Submit") %></td><%= f.hidden_field :post_permalink ,:value => @post.permalink %>
+	</tr>
+
+<% end %>
+</table>
+<hr>
 <ul>
-<h3>Comments</h3>
 <% @post.comments.each do |comment| %>
 	<% if comment.user %>
 		<li><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></li>
