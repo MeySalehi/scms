@@ -6,5 +6,5 @@ class Post < ActiveRecord::Base
 
 	scope :recent_post, lambda { |num| last(num).reverse }
 	scope :search, lambda { |query| where(["title LIKE ?", "%#{query}%" ]) }
-	scope :page, lambda { |page, num| limit(num).last((num * page)).first(num).reverse} 
+	scope :page, lambda { |page, limit| limit(limit).last((limit * page)).first(limit).reverse} 
 end
