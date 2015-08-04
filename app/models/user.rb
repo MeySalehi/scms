@@ -5,4 +5,6 @@ class User < ActiveRecord::Base
 	has_many 	:posts
 	has_many	:comments
 
+	scope :list, lambda { |page, limit| where(profile_visible: nil).order("full_name asc").last((limit * page)).first(limit).reverse}
+
 end
