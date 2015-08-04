@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 	#Authors controller Actions: ['authors', 'page', 'profile']
 	resources :authors do
 		collection do
-			get "page/:id(.:format)" => :index
+			get "page/:id(.:format)" => :page
 		end
 	end
 
