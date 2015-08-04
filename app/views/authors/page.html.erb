@@ -1,0 +1,16 @@
+<h1>Authors#page</h1>
+<p>Find me in app/views/authors/page.html.erb</p>
+<hr>
+<ul>
+<% @authors.each do |author| %>
+<li><h2><%= link_to author.full_name, "/@#{author.username}" %></h2></li>
+<li><%= author.bio %></li>
+<li><%= link_to author.public_email, "mailto:#{author.public_email}" %></li>
+<li>recent posts:<br>
+	<% posts = author.posts.last(5).reverse %> 
+	<% posts.each do |post| %>
+		<tl><%= link_to post.title, post_path(post.permalink) %> <%= post.publish_at %></tl><br>
+	<% end %>
+</li>
+<hr>
+<% end %>
