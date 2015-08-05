@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 				get "page/:id(.:format)" => :index
 			end
 		end
-		resources :caregories do
+		resources :caregories  do
 			collection do
 				get "page/:id(.:format)" => :index
 			end
@@ -42,23 +42,25 @@ Rails.application.routes.draw do
 
 	#public posts controller actions:
 	#['index', 'show', 'page', 'category', 'search', 'commet']
-	resources :posts do
+	resources :posts, param: :permalink, only: [:index, :show] do
 		collection do
 			get "page/:id(.:format)" => :page
-			get "search/:id(.:format)" => :search
-			get "category/:id(.:format)" => :category
-			post :comment
+			get "search/:query(.:format)" => :search
+			get "category/:title(.:format)" => :category
 		end
+    member do
+      post :comment
+    end
 	end
 
 	#Authors controller Actions: ['authors', 'page', 'profile']
-	resources :authors do
+	resources :authors, only: [:index] do
 		collection do
 			get "page/:id(.:format)" => :page
 		end
 	end
 
-  resources :files
+  resources :files, only: :show
 
 	get	'@:username(.:format)'	=> 'authors#profile'
 

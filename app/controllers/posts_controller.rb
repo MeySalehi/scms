@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    p = params[:id]
+    p = params[:permalink]
     @post = Post.find_by_permalink(p)
 
     unless @post
@@ -19,7 +19,7 @@ class PostsController < ApplicationController
   end
 
   def category
-    category = Category.find_by_name(params[:id])
+    category = Category.find_by_name(params[:title])
     @posts = category.posts
 
     if @posts == []
@@ -28,7 +28,7 @@ class PostsController < ApplicationController
   end
 
   def search
-    @posts = Post.search(params[:id]).reverse
+    @posts = Post.search(params[:query]).reverse
 
     if @posts == []
       render file: "#{Rails.root}/public/404.html"
@@ -39,8 +39,7 @@ class PostsController < ApplicationController
   def comment
 
     comment = Comment.new(commnet_params)
-    permalink = params.require(:comment)[:post_permalink]
-    puts permalink
+    permalink = params[:permalink]
 
     if comment.save
       flash[:notice] = "Your Comment Successfuly Published."

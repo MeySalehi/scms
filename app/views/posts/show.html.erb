@@ -18,7 +18,7 @@
 <% end %>
 <h3>Leave your comment:</h3>
 <table>
-<%= form_for(@comment, :method => "post", :url => comment_posts_path) do |f| %>
+<%= form_for(@comment, :method => "post", :url => comment_post_path(@post.permalink)) do |f| %>
 	<%= f.hidden_field :post_id ,:value => @post.id %>
 	<tr>
 		<th><%= f.label(:author) %></th>
@@ -39,7 +39,7 @@
 	<tr>
 
 		<th></th>
-		<td><%= submit_tag("Submit") %></td><%= f.hidden_field :post_permalink ,:value => @post.permalink %>
+		<td><%= submit_tag("Submit") %></td>
 	</tr>
 
 <% end %>
