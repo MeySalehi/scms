@@ -18,6 +18,12 @@ Rails.application.routes.draw do
 			end
 			resources :comments
 		end
+    resources :pages do
+      collection do
+        get "page/:id(.:format)" => :index
+      end
+      resources :comments
+    end
 		resources :settings do
 			collection do
 				resources :authors
@@ -63,7 +69,7 @@ Rails.application.routes.draw do
   resources :files, only: :show
 
 	get	'@:username(.:format)'	=> 'authors#profile'
-
+  get ':permalink(.:format)' => 'posts#show_page'
 	root 'posts#index'
   
 

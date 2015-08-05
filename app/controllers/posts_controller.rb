@@ -2,22 +2,31 @@ class PostsController < ApplicationController
   def index
     @posts = Post.recent_post(5)
   end
-
+# --------------------------------
   def page
 
     @posts = Post.page(params[:id].to_i,2)
   end
-
+# --------------------------------
   def show
-    p = params[:permalink]
-    @post = Post.find_by_permalink(p)
+    
+    @post = Post.post_by_permalink(params[:permalink])
 
     unless @post
       render file: "#{Rails.root}/public/404.html"
     end
     @comment = Comment.new
   end
+# --------------------------------
+  def show_page
+    @page = Post.page_by_permalink(params[:permalink])
 
+    unless @post
+      render file: "#{Rails.root}/public/404.html"
+    end
+    @comment = Comment.new
+  end
+# --------------------------------
   def category
     category = Category.find_by_name(params[:title])
     @posts = category.posts
@@ -26,7 +35,7 @@ class PostsController < ApplicationController
       render file: "#{Rails.root}/public/404.html"
     end
   end
-
+# --------------------------------
   def search
     @posts = Post.search(params[:query]).reverse
 
@@ -35,7 +44,7 @@ class PostsController < ApplicationController
     end
 
   end
-
+# --------------------------------
   def comment
 
     comment = Comment.new(commnet_params)
@@ -50,7 +59,7 @@ class PostsController < ApplicationController
     end
 
   end
-
+# --------------------------------
   private
     def commnet_params
       p = params.require(:comment).permit(:post_id, :author, :author_url, :author_email, :content)
