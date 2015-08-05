@@ -1,7 +1,18 @@
 Rails.application.routes.draw do
 
 	namespace :admin do
-		resources :posts	do
+
+    get   "/login"  => 'dashboard#login'
+    post  "/login"  => 'dashboard#attempt_login'
+    get   "/logout" => 'dashboard#logout'
+    
+    resources :dashboard, only:[:index, :draft] do
+      collection do
+        post "" => :draft
+      end
+    end
+		
+    resources :posts do
 			collection do
 				get "page/:id(.:format)" => :index
 			end
