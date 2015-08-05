@@ -1,4 +1,5 @@
 class Admin::CategoriesController < ApplicationController
+  before_action :confirm_logged_in
   def index
   end
 

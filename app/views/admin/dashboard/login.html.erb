@@ -1,0 +1,18 @@
+<h1>admin/dashboard#login</h1>
+<p>Find me in app/views/admin/dashboard/login.html.erb</p>
+<hr>
+<table>
+	<%= form_for(:login, :method => 'post', :url => 'login' ) do |f| %>
+	<tr>
+		<th><%= f.label :username, :value => "Username" %></th>
+		<td><%= f.text_field :username %></td> 
+	</tr>
+	<tr>
+		<th><%= f.label :password, :value => "Password" %></th>
+		<td><%= f.password_field :password %></td>
+	</tr>
+	<tr>
+		<td><%= f.submit("Login") %></td>
+	</tr>
+	<% end %>
+</table>
