@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150802050230) do
     t.string   "permalink"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "type"
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
