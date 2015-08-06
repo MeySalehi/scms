@@ -1,13 +1,18 @@
 class Admin::DashboardController < ApplicationController
 
 	before_action :confirm_logged_in, :except => [:login, :attempt_login, :logout]
- 
+	# ---------------------------------------------------
 	def index
-	
+		@activity = Hash.new
+		@activity[:posts] = Post.posts_count
+		@activity[:comments] = Comment.count
+		@activity[:pages] = Post.pages_count
 	end
+	# ---------------------------------------------------
 	def login
 	
 	end
+	# ---------------------------------------------------
 	def attempt_login
 		if params[:login][:username].present? && params[:login][:password].present?
 			
@@ -24,14 +29,13 @@ class Admin::DashboardController < ApplicationController
 			session[:full_name]	= authorized_user.full_name
 
 			flash[:notice] = "Welcome #{authorized_user.full_name}."
-			puts "************* logged in **************"
 			redirect_to admin_dashboard_index_path
 		else
 			flash[:error] = "Invalid username/password combination."
-			puts "*************** Invalid **************"
 			redirect_to admin_login_path
 		end
 	end
+	# ---------------------------------------------------
 	def logout
 		# mark user as logged out
 		session[:user_id]		= nil
@@ -41,7 +45,21 @@ class Admin::DashboardController < ApplicationController
 		flash[:notice] = "logged out!"
 		redirect_to admin_login_path
 	end
+	# ---------------------------------------------------
 	def draft
-	
+		draft_params = params.require(:draft).permit(:user_id, :status, :type_set, :title)
+		draft_params[:user_id] = draft_params[:user_id].to_i
+
+		puts draft_params
+		draft = Post.new(draft_params)
+		
+		if draft.save
+			flash[:notice] = "'#{draft_params[:title]}' Successfully Created!"
+			redirect_to admin_dashboard_index_path
+		else
+			flash[:error] = "Unfortantly, we have on error"
+			redirect_to admin_dashboard_index_path
+		end
 	end
+	# ---------------------------------------------------
 end

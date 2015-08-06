@@ -1,3 +1,21 @@
-<h1>admin/dashboard#login</h1>
-<p>Find me in app/views/admin/dashboard/login.html.erb</p>
+<h1>admin/dashboard#index</h1>
+<p>Find me in app/views/admin/dashboard/index.html.erb</p>
+<hr>
+<h3>Activity</h3>
+<ul>
+	<li>Posts: <%= @activity[:posts] %></li>
+	<li>Comments: <%= @activity[:comments] %></li>
+	<li>Pages: <%= @activity[:pages] %></li>
+</ul>
+<hr>
+<h3>Quick Draft</h3>
+<table>
+<%= form_for(:draft, url: {:action => :draft}, method: "POST") do |f| %>
+<%= f.hidden_field :user_id, value: session[:user_id] %>
+<%= f.hidden_field :status, value: "DRAFT"  %>
+<%= f.hidden_field :type_set, value: "POST" %>
+<th><%= f.text_field(:title) %></th>
+<td><%= f.submit("send") %></td>
+<% end %>
+</table>
 <hr>

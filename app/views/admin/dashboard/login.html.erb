@@ -1,6 +1,11 @@
 <h1>admin/dashboard#login</h1>
 <p>Find me in app/views/admin/dashboard/login.html.erb</p>
 <hr>
+<% if !flash[:notice].blank? %>
+	<h3 style="color:green" ><%= flash[:notice] %></h3>
+<%elsif !flash[:error].blank? %>
+	<h3 style="color:green" ><%= flash[:error] %></h3>
+<% end %>
 <table>
 	<%= form_for(:login, :method => 'post', :url => 'login' ) do |f| %>
 	<tr>
