@@ -13,4 +13,6 @@ class Post < ActiveRecord::Base
 	scope :page_users,					lambda { |page, limit| where(status: [ "USERS", "PUBLISH"]).limit(limit).last((limit * page)).first(limit).reverse}
 	scope :pages_count,					lambda { where(type_set: "PAGE").count }
 	scope :posts_count,					lambda { where(type_set: "POST").count }
+	scope :search_for_public,		lambda { |title, page, limit| where(title: title, status: "PUBLISH").limit(limit).last((limit * page)).first(limit).reverse }
+	scope :search_for_users,		lambda { |title, page, limit| where(title: title, status: [ "USERS", "PUBLISH"]).limit(limit).last((limit * page)).first(limit).reverse}
 end
