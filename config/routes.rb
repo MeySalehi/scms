@@ -46,20 +46,17 @@ Rails.application.routes.draw do
     end
 	end
 
-	#public posts controller actions:
-	#['index', 'show', 'page', 'category', 'search', 'commet']
 	resources :posts, param: :permalink, only: [:index, :show] do
 		collection do
 			get "page/:id(.:format)" => :page
-			get "search/:query(.:format)" => :search
-			get "category/:title(.:format)" => :category
+			get "search/:query(/page/:id(.:format))" => :search
+			get "category/:title(/page/:id(.:format))" => :category
 		end
     member do
       post :comment
     end
 	end
 
-	#Authors controller Actions: ['authors', 'page', 'profile']
 	resources :authors, only: [:index] do
 		collection do
 			get "page/:id(.:format)" => :page
