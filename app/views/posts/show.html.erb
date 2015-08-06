@@ -2,57 +2,61 @@
 <p>Find me in app/views/posts/show.html.erb</p>
 <p>Comments has bug and need edit</p>
 <hr>
+<% if !flash[:access_error].blank? %>
+	<h3 style="color:red" ><%= flash[:access_error] %></h3>
+<% else %>
+	<ul>
+		<li><h1><%= @post.title %></h1></li>
+		<li>By <%= link_to @post.user.full_name, "/@#{@post.user.username}"%></li>
+		<li><%= @post.content %></li>
+		<li><%= @post.publish_at %></li>
+		<li><%= @post.meta_keywords %></li>
+	</ul>
 
-<ul>
-	<li><h1><%= @post.title %></h1></li>
-	<li>By <%= link_to @post.user.full_name, "/@#{@post.user.username}"%></li>
-	<li><%= @post.content %></li>
-	<li><%= @post.publish_at %></li>
-	<li><%= @post.meta_keywords %></li>
-</ul>
-<hr>
-<% if !flash[:notice].blank? %>
-	<h3 style="color:green" ><%= flash[:notice] %></h3>
-<%elsif !flash[:error].blank? %>
-	<h3 style="color:green" ><%= flash[:error] %></h3>
-<% end %>
-<h3>Leave your comment:</h3>
-<table>
-<%= form_for(@comment, :method => "post", :url => comment_post_path(@post.permalink)) do |f| %>
-	<%= f.hidden_field :post_id ,:value => @post.id %>
-	<tr>
-		<th><%= f.label(:author) %></th>
-		<td><%= f.text_field :author %><td>
-	</tr>
-	<tr>
-		<th><%= f.label(:author_url) %></th>
-		<td><%= f.text_field :author_url %></td>
-	</tr>
-	<tr>
-		<th><%= f.label(:author_email) %></th>
-		<td><%= f.text_field :author_email %></td>
-	</tr>
-	<tr>
-		<th><%= f.label(:content) %></th>
-		<td><%= f.text_area  :content %></td>
-	</tr>
-	<tr>
-
-		<th></th>
-		<td><%= submit_tag("Submit") %></td>
-	</tr>
-
-<% end %>
-</table>
-<hr>
-<ul>
-<% @post.comments.each do |comment| %>
-	<% if comment.user %>
-		<li><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></li>
-	<% else %>
-		<li><%= link_to comment.author, "http://" + comment.author_url.to_s %> </li>
-	<% end %>
-	<li><%= comment.content %></li>
 	<hr>
+	<% if !flash[:notice].blank? %>
+		<h3 style="color:green" ><%= flash[:notice] %></h3>
+	<%elsif !flash[:error].blank? %>
+		<h3 style="color:green" ><%= flash[:error] %></h3>
+	<% end %>
+	<h3>Leave your comment:</h3>
+	<table>
+	<%= form_for(@comment, :method => "post", :url => comment_post_path(@post.permalink)) do |f| %>
+		<%= f.hidden_field :post_id ,:value => @post.id %>
+		<tr>
+			<th><%= f.label(:author) %></th>
+			<td><%= f.text_field :author %><td>
+		</tr>
+		<tr>
+			<th><%= f.label(:author_url) %></th>
+			<td><%= f.text_field :author_url %></td>
+		</tr>
+		<tr>
+			<th><%= f.label(:author_email) %></th>
+			<td><%= f.text_field :author_email %></td>
+		</tr>
+		<tr>
+			<th><%= f.label(:content) %></th>
+			<td><%= f.text_area  :content %></td>
+		</tr>
+		<tr>
+
+			<th></th>
+			<td><%= submit_tag("Submit") %></td>
+		</tr>
+
+	<% end %>
+	</table>
+	<hr>
+	<ul>
+	<% @post.comments.each do |comment| %>
+		<% if comment.user %>
+			<li><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></li>
+		<% else %>
+			<li><%= link_to comment.author, "http://" + comment.author_url.to_s %> </li>
+		<% end %>
+		<li><%= comment.content %></li>
+		<hr>
+	<% end %>
+	</ul>
 <% end %>
-</ul>
