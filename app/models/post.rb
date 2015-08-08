@@ -4,15 +4,44 @@ class Post < ActiveRecord::Base
 	has_many	:comments
 	has_and_belongs_to_many :categories, :join_table => :posts_categories
 
-	scope :post_by_permalink, 	lambda { |permalink| where(permalink: permalink ).first}#<<<< after edit seed add the type: "POST"
-	scope :page_by_permalink, 	lambda { |permalink| where(permalink: permalink ).first}#<<<< after edit seed add the type: "PAGE"
-	scope :public_recent_post,	lambda { |limit| where(status: "PUBLISH").last(limit).reverse }
-	scope :users_recent_post,		lambda { |limit| where(status: ["PUBLISH", "USERS"]).last(limit).reverse }
-	scope :search,							lambda { |query| where(["title LIKE ?", "%#{query}%" ]) }
-	scope :page_public,					lambda { |page, limit| where(status: "PUBLISH").limit(limit).last((limit * page)).first(limit).reverse}
-	scope :page_users,					lambda { |page, limit| where(status: [ "USERS", "PUBLISH"]).limit(limit).last((limit * page)).first(limit).reverse}
-	scope :pages_count,					lambda { where(type_set: "PAGE").count }
-	scope :posts_count,					lambda { where(type_set: "POST").count }
-	scope :search_for_public,		lambda { |title, page, limit| where(title: title, status: "PUBLISH").limit(limit).last((limit * page)).first(limit).reverse }
-	scope :search_for_users,		lambda { |title, page, limit| where(title: title, status: [ "USERS", "PUBLISH"]).limit(limit).last((limit * page)).first(limit).reverse}
+	scope :post_by_permalink, lambda { |permalink|
+					where(permalink: permalink, type_set: "POST" ).first}#<<<< after edit seed add the type: "POST"
+	
+	scope :page_by_permalink, lambda { |permalink|
+					where(permalink: permalink, type_set: "PAGE" ).first}#<<<< after edit seed add the type: "PAGE"
+	
+	scope :public_recent_post, lambda { |limit|
+					where(status: "PUBLIC", type_set: "POST")
+						.last(limit).reverse }
+	
+	scope :users_recent_post, lambda { |limit|
+					where(status: ["PUBLIC", "USERS"], type_set: "POST")
+						.last(limit).reverse }
+
+	scope :search, lambda { |query|
+					where(["title LIKE ?", "%#{query}%" ]) }
+	
+	scope :page_public,	lambda { |page, limit|
+					where(status: "PUBLIC", type_set: "POST")
+						.order(publish_at: :desc).limit(limit).offset((limit * page) - limit)}
+	
+	scope :page_users, lambda { |page, limit|
+					where(status: [ "USERS", "PUBLIC"], type_set: "POST")
+						.order(publish_at: :desc).limit(limit).offset((limit * page) - limit)}
+	
+	scope :pages_count,	lambda { where(type_set: "PAGE").count }
+	
+	scope :posts_count, lambda { where(type_set: "POST").count }
+	
+	scope :search_for_public, lambda { |title, page, limit|
+					where("title LIKE? '%#{title}%'", status: "PUBLIC")
+						.order(publish_at: :desc).limit(limit).offset((limit * page) - limit)}
+	
+	scope :search_for_users, lambda { |title, page, limit|
+					where(title: title, status: [ "USERS", "PUBLIC"])
+						.order(publish_at: :desc).limit(limit).offset((limit * page) - limit)
+	
+	scope :users_post_count, lambda { where(type_set: "POST", status: ["PUBLIC", "USERS"]).count }
+	
+	scope :public_post_count, lambda { where(type_set: "POST", status: "PUBLIC").count }
 end
