@@ -22,7 +22,7 @@ class FixTables < ActiveRecord::Migration
 
   def down
   	drop_table :posts_categories
-    add_column(:posts, :password_digest)
+    add_column(:posts, :password_digest, :string)
     change_column(:comments, :author, :string, null: false)
     change_column(:comments, :author_email, :string, null: false)
   	rename_column(:posts, :user_id,		:author_id)
