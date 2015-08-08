@@ -12,3 +12,8 @@
 	<hr>
 	<% end %>
 </ul>
+<% @page_num.times do |p| %>
+	<% p = p + 1 %>
+
+	<%= link_to p.to_s, pages_posts_path(p), color: "green" %>
+<% end %>

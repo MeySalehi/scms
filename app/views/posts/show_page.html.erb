@@ -1,28 +1,27 @@
 <h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
-<p>Comments has bug and need edit</p>
+<p>Find me in app/views/posts/show_page.html.erb</p>
 <hr>
 <% if !flash[:access_error].blank? %>
 	<h3 style="color:red" ><%= flash[:access_error] %></h3>
 <% else %>
 	<ul>
-		<li><h1><%= @post.title %></h1></li>
-		<li>By <%= link_to @post.user.full_name, "/@#{@post.user.username}"%></li>
-		<li><%= @post.content %></li>
-		<li><%= @post.publish_at %></li>
-		<li><%= @post.meta_keywords %></li>
+		<li><h1><%= @page.title %></h1></li>
+		<li>By <%= link_to @page.user.full_name, "/@#{@page.user.username}"%></li>
+		<li><%= @page.content %></li>
+		<li><%= @page.publish_at %></li>
+		<li><%= @page.meta_keywords %></li>
 	</ul>
 
 	<hr>
-	<% if !flash[:notice].blank? %>
+	<% if !flash[:comment_notice].blank? %>
 		<h3 style="color:green" ><%= flash[:notice] %></h3>
-	<%elsif !flash[:error].blank? %>
+	<%elsif !flash[:comment_error].blank? %>
 		<h3 style="color:green" ><%= flash[:error] %></h3>
 	<% end %>
 	<h3>Leave your comment:</h3>
 	<table>
-	<%= form_for(@comment, :method => "post", :url => comment_post_path(@post.permalink)) do |f| %>
-		<%= f.hidden_field :post_id ,:value => @post.id %>
+	<%= form_for(@comment, :method => "post", :url => comment_page_path(@page.permalink)) do |f| %>
+		<%= f.hidden_field :post_id ,:value => @page.id %>
 		<tr>
 			<th><%= f.label(:author) %></th>
 			<td><%= f.text_field :author %><td>
@@ -49,7 +48,7 @@
 	</table>
 	<hr>
 	<ul>
-	<% @post.comments.each do |comment| %>
+	<% @page.comments.each do |comment| %>
 		<% if comment.user %>
 			<li><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></li>
 		<% else %>
@@ -59,7 +58,7 @@
 				<% else %>
 					<%= comment.author %>
 				<% end %>
-			 </li>
+			</li>
 		<% end %>
 		<li><%= comment.content %></li>
 		<hr>

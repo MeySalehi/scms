@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  ERR404 = "#{Rails.root}/public/404.html"
+  
   def index
     if session[:user_id]
       @posts = Post.users_recent_post(5)
@@ -8,10 +10,46 @@ class PostsController < ApplicationController
   end
 # --------------------------------
   def page
+    page = params[:id].to_i
+    limit = 3 #<<< set by options an db
+
+    if page == 0
+      return render file: ERR404
+    end
+    
+
     if session[:user_id]
-      @posts = Post.page_users(params[:id].to_i,10)
+      @posts = Post.page_users(page,limit)
+
+      if @posts.blank?
+        return render file: ERR404
+      end
+
+      post_count = Post.users_post_count
+
+      if post_count < limit
+        @page_num = 1
+      elsif (post_count % limit) == 0
+        @page_num = post_count / limit
+      else
+        @page_num = (post_count / limit) + 1
+      end
     else
-      @posts = Post.page_public(params[:id].to_i,2)
+      @posts = Post.page_public(page,limit)
+      
+      if @posts.blank?
+        return render file: ERR404
+      end
+
+      post_count = Post.public_post_count
+      
+      if post_count < limit
+        @page_num = 1
+      elsif (post_count % limit) == 0
+        @page_num = post_count / limit
+      else
+        @page_num = (post_count / limit) + 1
+      end
     end
   end
 # --------------------------------
@@ -19,7 +57,7 @@ class PostsController < ApplicationController
     post_content = Post.post_by_permalink(params[:permalink])
 
     unless post_content
-      render file: "#{Rails.root}/public/404.html"
+      render file: ERR404
     end
 
     if session[:user_id]
@@ -37,7 +75,7 @@ class PostsController < ApplicationController
     page_content = Post.page_by_permalink(params[:permalink])
 
     unless page_content
-      render file: "#{Rails.root}/public/404.html"
+      render file: ERR404
     end
 
     if session[:user_id]
@@ -63,7 +101,7 @@ class PostsController < ApplicationController
     # end       
 
     # if @posts == []
-    #   render file: "#{Rails.root}/public/404.html"
+    #   render ERR404
     # end
   end
 # --------------------------------
@@ -76,8 +114,8 @@ class PostsController < ApplicationController
       @posts = Post.search_for_public(params[:query],page,limit)
     end       
 
-    if @posts == []
-      render file: "#{Rails.root}/public/404.html"
+    if @posts.blank?
+      render file: ERR404
     end
   end
 # --------------------------------
@@ -87,10 +125,10 @@ class PostsController < ApplicationController
     permalink = params[:permalink]
 
     if comment.save
-      flash[:notice] = "Your Comment Successfuly Published."
+      flash[:comment_notice] = "Your Comment Successfuly Published."
       return redirect_to post_path(permalink)
     else
-      flash[:error] = "Sorry, we have an error!"
+      flash[:comment_error] = "Sorry, we have an error!"
       return redirect_to post_path(permalink)
     end
 
