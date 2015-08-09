@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 		
     resources :posts do
 			collection do
-				get "page/:id(.:format)" => :index
+				get "page/:id(.:format)" => :index, as: "page"
 			end
 			resources :comments
 		end
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 		end
 		resources :comments do
 			collection do
-				get "page/:id(.:format)" => :index
+				get "page/:id(.:format)" => :index, as: "page"
 			end
 		end
 		resources :caregories  do
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
 	resources :posts, param: :permalink, only: [:index, :show] do
 		collection do
-			get "page/:id(.:format)" => :page, as: 'pages'
+			get "page/:id(.:format)" => :index, as: 'pages'
 			get "search/:query(/page/:id(.:format))" => :search, as: 'search'
 			get "category/:title(/page/:id(.:format))" => :category
 		end
