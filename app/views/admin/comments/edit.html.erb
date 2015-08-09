@@ -1,2 +1,26 @@
 <h1>Admin::Comments#edit</h1>
 <p>Find me in app/views/admin/comments/edit.html.erb</p>
+<hr>
+<% if !flash[:error].blank? %>
+	<p style="color:red" ><%= flash[:error] %></p>
+	<hr>
+<% end %>
+<table>
+	<% if !@comment.user_id.blank? %>
+			<td><%= link_to @comment.user.full_name, user_profile_path(@comment.user.username) %></td>
+			<td><%= link_to @comment.user.public_email %></td>
+		<% else %>
+			<td><%= link_to @comment.author, @comment.author_url %>
+			<td><%= link_to @comment.author_email %></td>
+		<% end %>
+	<%= form_for(@comment, method: "PATCH", url: {action: :update, id: @comment.id}) do |f| %>
+
+	<tr>
+		<td><%= f.label :content %></td>
+		<td><%= f.text_area :content %></td>
+	</tr>
+	<tr>
+		<td><%= f.submit "Send" %></td>
+	</tr>
+	<% end %>
+</table>

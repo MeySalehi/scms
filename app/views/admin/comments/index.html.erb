@@ -1,2 +1,46 @@
 <h1>Admin::Comments#index</h1>
 <p>Find me in app/views/admin/comments/index.html.erb</p>
+<hr>
+<% @page_num.times do |p| %>
+	<% p = p + 1 %>
+	<% if p == @current_page %>
+	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<% else %>
+		<%= link_to p.to_s, page_admin_comments_path(p)  %>
+	<% end %>
+<% end %>
+<hr>
+<% if !flash[:notice].blank? %>
+	<p style="color:green" ><%= flash[:notice] %></p>
+	<hr>
+<% end %>
+<% if !@post.blank? %>
+	<h4><%= @post.title %> comments:</h4>
+<% end %>
+<table>
+<% @comments.each do |comment| %>
+	<tr>
+		<td><%= comment.post.title %></td>
+		<%if !comment.user_id.blank? %>
+			<td><%= link_to comment.user.full_name, user_profile_path(comment.user.username) %></td>
+			<td><%= link_to comment.user.public_email %></td>
+		<% else %>
+			<td><%= link_to comment.author, comment.author_url %>
+			<td><%= link_to comment.author_email %></td>
+		<% end %>
+			<td><%= comment.content[0..100] %></td>
+			<td><%= comment.created_at %></td>
+			<td><%= comment.approved %></td>
+			<td><%= link_to "Edit", edit_admin_comment_path(comment.id) %></td>
+		</tr>
+<% end %>
+</table>
+<hr>
+<% @page_num.times do |p| %>
+	<% p = p + 1 %>
+	<% if p == @current_page %>
+	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<% else %>
+		<%= link_to p.to_s, page_admin_comments_path(p)  %>
+	<% end %>
+<% end %>
