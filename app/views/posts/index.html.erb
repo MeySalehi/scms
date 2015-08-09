@@ -1,7 +1,14 @@
 <h1>Posts#index</h1>
 <p>Find me in app/views/posts/index.html.erb</p>
 <hr>
-<%= @posts %>
+<% @page_num.times do |p| %>
+	<% p = p + 1 %>
+	<% if p == @current_page %>
+	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<% else %>
+		<%= link_to p.to_s, pages_posts_path(p)  %>
+	<% end %>
+<% end %>
 <ul>
 	<% @posts.each do |post| %>
 	<li><h3><%= link_to post.title, post_path(post.permalink) %></h3></li>
@@ -12,3 +19,11 @@
 	<hr>
 	<% end %>
 </ul>
+<% @page_num.times do |p| %>
+	<% p = p + 1 %>
+	<% if p == @current_page %>
+	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<% else %>
+		<%= link_to p.to_s, pages_posts_path(p)  %>
+	<% end %>
+<% end %>
