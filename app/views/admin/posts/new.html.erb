@@ -1,2 +1,33 @@
 <h1>Admin::Posts#new</h1>
 <p>Find me in app/views/admin/posts/new.html.erb</p>
+<hr>
+<% if !flash[:error].blank? %>
+	<p style="color:red" ><%= flash[:error] %></p>
+	<hr>
+<% end %>
+<table>
+<%= form_for(@post, method: "POST", url: {action: :create}) do |f| %>
+<tr>
+	<td><%= f.label :title %></td>
+	<td><%= f.text_field :title %></td>
+</tr>
+<tr>
+	<td><%= f.label :permalink %></td>
+	<td><%= f.text_field :permalink %></td>	
+</tr>
+<tr>
+	<td><%= f.label :content %></td>
+	<td><%= f.text_area :content %></td>
+</tr>
+<tr>
+	<td><%= f.label :meta_keywords %></td>
+	<td><%= f.text_field :meta_keywords %></td>
+</tr>
+<tr>
+	<td><%= f.submit name: "status", value: "Draft" %></td>
+	<td><%= f.submit name: "status", value: "Publish" %></td>
+	<td><%= f.submit name: "status", value: "Publish for users" %></td>
+</tr>
+
+<% end %>
+</table>

@@ -1,2 +1,34 @@
 <h1>Admin::Posts#edit</h1>
 <p>Find me in app/views/admin/posts/edit.html.erb</p>
+<hr>
+<% if !flash[:error].blank? %>
+	<p style="color:red" ><%= flash[:error] %></p>
+	<hr>
+<% end %>
+<table>
+<%= form_for(@post, method: "PATCH", url: {action: :update}) do |f| %>
+<%= hidden_field_tag :id, @post.id %>
+<tr>
+	<td><%= f.label :title %></td>
+	<td><%= f.text_field :title %></td>
+</tr>
+<tr>
+	<td><%= f.label :permalink %></td>
+	<td><%= f.text_field :permalink %></td>	
+</tr>
+<tr>
+	<td><%= f.label :content %></td>
+	<td><%= f.text_area :content %></td>
+</tr>
+<tr>
+	<td><%= f.label :meta_keywords %></td>
+	<td><%= f.text_field :meta_keywords %></td>
+</tr>
+<tr>
+	<td><%= f.submit name: "status", value: "Draft", data: { confirm: "Are you sure edit this post?" } %></td>
+	<td><%= f.submit name: "status", value: "Publish", data: { confirm: "Are you sure edit this post?" } %></td>
+	<td><%= f.submit name: "status", value: "Publish for users",data: { confirm: "Are you sure edit this post?" } %></td>
+</tr>
+
+<% end %>
+</table>
