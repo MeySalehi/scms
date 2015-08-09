@@ -2,55 +2,41 @@ class PostsController < ApplicationController
   ERR404 = "#{Rails.root}/public/404.html"
   
   def index
-    if session[:user_id]
-      @posts = Post.users_recent_post(5)
-    else
-      @posts = Post.public_recent_post(5)
-    end
-  end
-# --------------------------------
-  def page
-    page = params[:id].to_i
+
+    page = params[:id] == nil ? 1 : params[:id].to_i
     limit = 3 #<<< set by options an db
 
     if page == 0
       return render file: ERR404
     end
-    
 
     if session[:user_id]
       @posts = Post.page_users(page,limit)
-
-      if @posts.blank?
-        return render file: ERR404
-      end
-
+  
       post_count = Post.users_post_count
 
-      if post_count < limit
-        @page_num = 1
-      elsif (post_count % limit) == 0
-        @page_num = post_count / limit
-      else
-        @page_num = (post_count / limit) + 1
+      if @posts.blank?
+        return render file: ERR404
       end
-    else
+    else #--------------- else -----------
       @posts = Post.page_public(page,limit)
+  
+      post_count = Post.public_post_count
       
       if @posts.blank?
         return render file: ERR404
       end
-
-      post_count = Post.public_post_count
-      
-      if post_count < limit
-        @page_num = 1
-      elsif (post_count % limit) == 0
-        @page_num = post_count / limit
-      else
-        @page_num = (post_count / limit) + 1
-      end
     end
+    
+    if post_count < limit
+      @page_num = 1
+    elsif (post_count % limit) == 0
+      @page_num = post_count / limit
+    else
+      @page_num = (post_count / limit) + 1
+    end
+    puts page
+    @current_page = page
   end
 # --------------------------------
   def show
