@@ -7,4 +7,7 @@ class User < ActiveRecord::Base
 
 	scope :list, lambda { |page, limit| where(profile_visible: nil).order("full_name asc").last((limit * page)).first(limit).reverse}
 
+
+	scope :user_posts, lambda { |user_id| where(id: user_id).first.posts}
+
 end
