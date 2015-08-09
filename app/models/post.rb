@@ -4,11 +4,13 @@ class Post < ActiveRecord::Base
 	has_many	:comments
 	has_and_belongs_to_many :categories, :join_table => :posts_categories
 
+
+	#-----------------------------Scopes--------------------------------
 	scope :post_by_permalink, lambda { |permalink|
-					where(permalink: permalink, type_set: "POST" ).first}#<<<< after edit seed add the type: "POST"
+					where(permalink: permalink, type_set: "POST" ).first}
 	
 	scope :page_by_permalink, lambda { |permalink|
-					where(permalink: permalink, type_set: "PAGE" ).first}#<<<< after edit seed add the type: "PAGE"
+					where(permalink: permalink, type_set: "PAGE" ).first}
 	
 	scope :public_recent_post, lambda { |limit|
 					where(status: "PUBLIC", type_set: "POST")
@@ -39,9 +41,16 @@ class Post < ActiveRecord::Base
 	
 	scope :search_for_users, lambda { |title, page, limit|
 					where(title: title, status: [ "USERS", "PUBLIC"])
-						.order(publish_at: :desc).limit(limit).offset((limit * page) - limit)
+						.order(publish_at: :desc).limit(limit).offset((limit * page) - limit)}
 	
 	scope :users_post_count, lambda { where(type_set: "POST", status: ["PUBLIC", "USERS"]).count }
 	
 	scope :public_post_count, lambda { where(type_set: "POST", status: "PUBLIC").count }
+
+	#----------------------------------------------
+
+	scope :user_posts, lambda { |user_id, page, limit| 
+					where(user_id: user_id)
+						.order(created_at: :desc).limit(limit).offset((limit * page) - limit)}
+
 end
