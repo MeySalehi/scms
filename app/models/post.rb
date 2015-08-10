@@ -49,8 +49,8 @@ class Post < ActiveRecord::Base
 
 	#----------------------------------------------
 
-	scope :user_posts, lambda { |user_id, page, limit| 
-					where(user_id: user_id)
+	scope :user_posts, lambda { |user_id, page, limit, type_set| 
+					where(user_id: user_id, type_set: type_set)
 						.order(created_at: :desc).limit(limit).offset((limit * page) - limit)}
-	scope :user_posts_count, lambda { |user_id| where(user_id: user_id).count}
+	scope :user_posts_count, lambda { |user_id, type_set| where(user_id: user_id, type_set: type_set).count}
 end
