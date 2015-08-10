@@ -1,0 +1,33 @@
+<h1>Admin::Users#index</h1>
+<p>Find me in app/views/admin/users/index.html.erb</p>
+<hr>
+<table>
+	<tr>
+		<th>Name:</th>
+		<td><%= @user.full_name %></td>
+	</tr>
+	<tr>
+		<th>Email</th>
+		<th><%= @user.public_email %></th>
+	</tr>
+	<tr>
+		<th>Bio</th>
+		<td><%= @user.bio %></td>
+	</tr>
+	<tr>
+		<th>SingUp at:</th>
+		<td><%= @user.created_at %></td>
+	</tr>
+	</table>
+	<h4>Recent Posts</h4>
+	<table>
+	<hr>
+	<% @recent_posts.each do |post| %>
+	<tr>
+	<th><%= link_to post.title, post_path(post.permalink) %></th>
+	<td><%= post.created_at %></td>
+	</tr>
+	<% end %>
+</table>
+<hr>
+<%= link_to "Show all Posts of #{@user.full_name}", admin_user_post_page_path(user_username: @user.username)%>
