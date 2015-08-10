@@ -6,18 +6,20 @@ class Admin::CommentsController < ApplicationController
     limit = 5 #set by options
     page = !params[:id].blank? && params[:id].to_i != 0 ? params[:id].to_i : 1
     post_id = params[:post_id] == nil ? nil : params[:post_id].to_i
-    if post_id.to_i > 0
-      @comments = Comment.post_comments(post_id,page,limit)
-      comment_count = Comment.post_comments_count(post_ids)
-      @post = Post.find_by(id: post_id)
-    elsif post_id == 0
-      return render file: ERR404
-    else
+    
+    if post_id == nil
       user_id = session[:user_id]
 
       post_ids = User.user_posts(user_id)
       @comments = Comment.user_posts_comments(post_ids, page, limit)
-      comment_count = Comment.user_posts_comments_count(post_ids)
+      comment_count = Comment.user_posts_comments_count(post_ids)    
+    elsif post_id == 0
+      return render file: ERR404
+    elsif post_id > 0  
+      @comments = Comment.post_comments(post_id,page,limit)
+      comment_count = Comment.post_comments_count(post_id)
+      @post = Post.find_by(id: post_id)
+      @post_id = post_id
     end
 
     if comment_count < limit
