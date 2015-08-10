@@ -1,20 +1,36 @@
 class AuthorsController < ApplicationController
   def index
-	  @authors = User.list(1 , 4)
-  end
-
-  def page
-  	page = params[:id].to_i
+    limit = 4 #set by options
+  	page = params[:id]
 		
-		if page == ( 0 or nil )
-	  	redirect_to :controller => "authors", :action => "index"
-	  else
-	  	@authors = User.list(page, 4)
+		if page == nil
+      page = 1
+      @authors = User.list(page, limit)
+    
+    elsif page.to_i == (0 && 1)
+	  	return redirect_to authors_path
+	  elsif page.to_i > 1
+      page = page.to_i
+      @authors = User.list(page, limit)
+      puts @authors
 	  end
+
+    authors_count = User.where(profile_visible: true).count
+    
+    if authors_count < limit
+      @page_num = 1
+    elsif (authors_count % limit) == 0
+      @page_num = authors_count / limit
+    else
+      @page_num = (authors_count / limit) + 1
+    end
+
+    @current_page = page
   end
   
   def profile
-  	@author = User.find_by_username(params[:username])
+
+  	@author = User.find_by(username: params[:username])
   	@author_posts = @author.posts
   end
 end

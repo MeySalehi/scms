@@ -2,6 +2,7 @@
 <p>Find me in app/views/authors/index.html.erb</p>
 <hr>
 <ul>
+<%= puts @authors %> 
 <% @authors.each do |author| %>
 <li><h2><%= link_to author.full_name, "/@#{author.username}" %></h2></li>
 <li><%= author.bio %></li>
@@ -9,8 +10,18 @@
 <li>recent posts:<br>
 	<% posts = author.posts.last(5).reverse %> 
 	<% posts.each do |post| %>
-		<tl><%= link_to post.title, post_path(post.permalink) %> <%= post.publish_at %></tl><br>
+		<tl><%= link_to post.title, post_path(permalink: post.permalink) %> <%= post.publish_at %></tl><br>
 	<% end %>
 </li>
 <hr>
+<% end %>
+<% if @page_num != 1 %>
+	<% @page_num.times do |p| %>
+		<% p = p + 1 %>
+		<% if p == @current_page %>
+		<b> [ <%= link_to p.to_s, authors_pages_authors_path(p)  %> ] </b>
+		<% else %>
+			<%= link_to p.to_s, authors_pages_authors_path(p) %>
+		<% end %>
+	<% end %>
 <% end %>
