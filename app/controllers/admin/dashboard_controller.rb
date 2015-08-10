@@ -27,7 +27,7 @@ class Admin::DashboardController < ApplicationController
 			session[:user_id]		= authorized_user.id
 			session[:username]	= authorized_user.username
 			session[:full_name]	= authorized_user.full_name
-
+			session[:access_level] = authorized_user.access_level
 			flash[:notice] = "Welcome #{authorized_user.full_name}."
 			redirect_to admin_dashboard_index_path
 		else
