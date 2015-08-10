@@ -31,13 +31,13 @@ Post.create( user_id: 6,	title: 'Test Page 9',		status: 'PUBLIC',		comment_statu
 Post.create( user_id: 7,	title: 'Test Page 10',	status: 'PUBLIC',		comment_status: 'PUBLIC',		content: '<h1>Test PAGE #10</h1><p>this is just a test page</p>',	permalink: 'test-page--10',	type_set: "PAGE",	publish_at: Time.now, created_at: Time.now, updated_at: Time.now )
 
 
-User.create( username: 'meysam',	password: '1234', full_name: 'FN:Meysam Salehi',	bio: 'developer',			access_level: 'ROOT', 	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
-User.create( username: 'jafar',		password: 'asdf', full_name: 'FN:Dadf dsaf',			bio: 'BIO:sdfasdfs',	access_level: 'ADMIN',	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
-User.create( username: 'ali',			password: 'cxvz', full_name: 'FN:asdf SADF',			bio: 'BIO:dsafsadf',	access_level: 'ADMIN',	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
-User.create( username: 'reza',		password: 'ewrt', full_name: 'FN:ADFasdfsd',			bio: 'BIO:adsfdsaf',	access_level: 'EDITOR',	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
-User.create( username: 'hasan',		password: 'zvcx', full_name: 'FN:sASDFfsdf',			bio: 'BIO:dfsgdffd',	access_level: 'EDITOR',	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
-User.create( username: 'dsaads',	password: 'wert', full_name: 'FN:ASDFasdfs',			bio: 'BIO:fsdfgdfg',	access_level: 'EDITOR',	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
-User.create( username: 'meyssa',	password: 'bvfg', full_name: 'FN:SDFsadfsd',			bio: 'BIO:fdsagdff',	access_level: 'EDITOR',	public_email:	"public@test.com",	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'meysam',	password: '1234', full_name: 'FN:Meysam Salehi',	bio: 'developer',			access_level: 'ROOT', 	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'jafar',		password: 'asdf', full_name: 'FN:Dadf dsaf',			bio: 'BIO:sdfasdfs',	access_level: 'ADMIN',	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'ali',			password: 'cxvz', full_name: 'FN:asdf SADF',			bio: 'BIO:dsafsadf',	access_level: 'ADMIN',	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'reza',		password: 'ewrt', full_name: 'FN:ADFasdfsd',			bio: 'BIO:adsfdsaf',	access_level: 'EDITOR',	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'hasan',		password: 'zvcx', full_name: 'FN:sASDFfsdf',			bio: 'BIO:dfsgdffd',	access_level: 'EDITOR',	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'dsaads',	password: 'wert', full_name: 'FN:ASDFasdfs',			bio: 'BIO:fsdfgdfg',	access_level: 'EDITOR',	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
+User.create( username: 'meyssa',	password: 'bvfg', full_name: 'FN:SDFsadfsd',			bio: 'BIO:fdsagdff',	access_level: 'EDITOR',	public_email:	"public@test.com", profile_visible: true,	created_at: Time.now, updated_at: Time.now )
 
 
 Comment.create( post_id: 1,	user_id: nil,	author: 'Ali-1',	author_email: 'ali@test.com',	author_url: 'example.com',	content: 'Goood!', approved: 'PUBLIC', parent_id: nil, created_at: Time.now, updated_at: Time.now )
