@@ -1,12 +1,20 @@
 class Admin::PostsController < ApplicationController
   before_action :confirm_logged_in
-  def index
-    limit = 5 # set by options
-    page = params[:id].to_i == 0 ? 1 : params[:id].to_i
-    user_id = session[:user_id].to_i
-    @posts = Post.user_posts(user_id, page, limit)
+  
+  ERR404 = "#{Rails.root}/public/404.html"
 
-    post_count = Post.user_posts_count(user_id)
+  def index
+    limit = 1 # set by options
+    page = params[:id].to_i == 0 ? 1 : params[:id].to_i
+    user = User.find_by(username: params[:user_username])
+    if !user.blank?
+      user_id = user.id
+    else
+      user_id = session[:user_id]
+    end
+    @posts = Post.user_posts(user_id, page, limit, "POST")
+
+    post_count = Post.user_posts_count(user_id, "POST")
 
     if post_count < limit
       @page_num = 1
@@ -15,13 +23,18 @@ class Admin::PostsController < ApplicationController
     else
       @page_num = (post_count / limit) + 1
     end
+    if page > @page_num
+      return render file: ERR404
+    end
+    @user_id = user_id
+    @username = params[:user_username]
     @current_page = page
   end
-
+  #---------------------------------------------------
   def new
     @post = Post.new
   end
-
+  #---------------------------------------------------  
   def create
     params = create_params
     new_post = Post.new(params)
@@ -33,7 +46,7 @@ class Admin::PostsController < ApplicationController
       return redirect_to new_admin_post_path
     end
   end
-
+  #---------------------------------------------------
   def edit  
     @post = Post.find(params[:id].to_i)
   end
