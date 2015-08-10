@@ -16,7 +16,11 @@ Rails.application.routes.draw do
 			collection do
 				get "page/:id(.:format)" => :index, as: "page"
 			end
-			resources :comments
+			resources :comments do
+        collection do
+          get "page/:id(.:format)" => :index, as: "page"
+        end
+      end
 		end
     resources :pages do
       collection do
@@ -24,11 +28,16 @@ Rails.application.routes.draw do
       end
       resources :comments
     end
-		resources :settings do
-			collection do
-				resources :authors
-			end
-		end
+		
+    resources :settings
+    
+    resources :users, param: :username do
+      get "/posts/(page/:id(.:format))" => "posts#index", as: "post_page"
+      collection do
+        get "page/:id(.:format)" => :index, as: "page"
+      end
+    end
+
 		resources :comments do
 			collection do
 				get "page/:id(.:format)" => :index, as: "page"
@@ -59,7 +68,7 @@ Rails.application.routes.draw do
 
 	resources :authors, only: [:index] do
 		collection do
-			get "page/:id(.:format)" => :page, as: 'authors_pages'
+			get "page/:id(.:format)" => :index, as: 'authors_pages'
 		end
 	end
 
