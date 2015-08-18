@@ -1,0 +1,51 @@
+<h1>Admin::Users#new</h1>
+<p>Find me in app/views/admin/users/new.html.erb</p>
+<hr>
+<table>
+	<%= form_for(@user, method: "POST", url: {action: :create}) do |f| %>
+		<tr>
+			<td><%= f.label :username %></td>
+			<td><%= f.text_field :username %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :email %></td>
+			<td><%= f.text_field :email %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :password %></td>
+			<td><%= f.password_field :password %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :full_name %></td>
+			<td><%= f.text_field :full_name %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :bio %></td>
+			<td><%= f.text_field :bio %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :public_email %></td>
+			<td><%= f.text_field :public_email %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :profile_visible %></td>
+			<td><%= f.check_box :profile_visible %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :avatar %></td>
+			<td><%= f.file_field :avatar %></td>
+		</tr>
+		<% if session[:access_level] == "ROOT" %>
+			<tr>
+				<td><%= f.label :access_level %></td>
+				<td><%= f.select :access_level, [["Root", "ROOT"], ["Admin", "ADMIN"], ['Editor', "EDITOR"], ["User", "USER"]] %></td>
+			</tr>
+		<% else %>
+			<%= f.hidden_field :access_level, value: "USER" %> 
+		<% end %>
+		<tr>
+			<td></td>
+			<td><%= f.submit %></td>
+		</tr>
+	<% end %>
+</table>

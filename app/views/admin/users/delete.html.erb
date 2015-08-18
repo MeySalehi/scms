@@ -1,0 +1,29 @@
+<h1>Admin::Users#delete</h1>
+<p>Find me in app/views/admin/users/delete.html.erb</p>
+<hr>
+<h3 style="color:red" >Are you sure delete this Account?</h3>
+<p><b style="color: red">Warning:</b> All posts that writhed by user will be deleted!</p>
+<table>
+<%= form_for(@user, method: "DELETE", url: {action: :destroy}) do |f| %>
+	<tr>
+		<th>Name:</th>
+		<td><%= @user.full_name %></td>
+	</tr>
+	<tr>
+		<th>Email</th>
+		<td><%= link_to @user.public_email %></td>
+	</tr>
+	<tr>
+		<th>Bio</th>
+		<td><%= @user.bio %></td>
+	</tr>
+	<tr>
+		<th>SingUp at:</th>
+		<td><%= @user.created_at %></td>
+	</tr>
+	<tr>
+		<th><%= f.hidden_field :username, value: @user.username %></th>
+		<td><%= f.submit "Yes I'm Sure!" %></td>
+	</tr>
+<% end %>
+</table>
