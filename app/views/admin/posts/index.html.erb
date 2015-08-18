@@ -32,18 +32,18 @@
 		<% @page_num.times do |p| %>
 			<% p = p + 1 %>
 			<% if p == @current_page %>
-			<b> [ <%= link_to p.to_s, page_admin_posts_path(p)  %> ] </b>
+			<b> [ <%= link_to p.to_s, admin_posts_path(page: p)  %> ] </b>
 			<% else %>
-				<%= link_to p.to_s, page_admin_posts_path(p)  %>
+				<%= link_to p.to_s, admin_posts_path(page: p)  %>
 			<% end %>
 		<% end %>
 	<% else %>
 		<% @page_num.times do |p| %>
 			<% p = p + 1 %>
 			<% if p == @current_page %>
-			<b> [ <%= link_to p.to_s, admin_user_post_page_path(user_username: @username, id: p)  %> ] </b>
+			<b> [ <%= link_to p.to_s, posts_admin_user_path(user_username: @username, page: p)  %> ] </b>
 			<% else %>
-				<%= link_to p.to_s, admin_user_post_page_path(user_username: @username, id: p) %>
+				<%= link_to p.to_s, posts_admin_user_path(user_username: @username, page: p) %>
 			<% end %>
 		<% end %>
 	<% end %>

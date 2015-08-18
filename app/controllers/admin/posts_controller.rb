@@ -4,9 +4,9 @@ class Admin::PostsController < ApplicationController
   ERR404 = "#{Rails.root}/public/404.html"
 
   def index
-    limit = 1 # set by options
-    page = params[:id].to_i == 0 ? 1 : params[:id].to_i
-    user = User.find_by(username: params[:user_username])
+    limit = 2 # set by options
+    page = params[:page].to_i == 0 ? 1 : params[:page].to_i
+    user = User.find_by(username: params[:username])
     if !user.blank?
       user_id = user.id
     else
