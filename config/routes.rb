@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
-	namespace :admin do
+  get   "/login"  => 'admin/dashboard#login'
+  post  "/login"  => 'admin/dashboard#attempt_login'
+  get   "/logout" => 'admin/dashboard#logout'
 
-    get   "/login"  => 'dashboard#login'
-    post  "/login"  => 'dashboard#attempt_login'
-    get   "/logout" => 'dashboard#logout'
+
+	namespace :admin do
+    root to: redirect('admin/dashboard/')    
     
     resources :dashboard, only:[:index, :draft] do
       collection do
@@ -13,69 +15,43 @@ Rails.application.routes.draw do
     end
 		
     resources :posts do
-			collection do
-				get "page/:id(.:format)" => :index, as: "page"
-			end
-			resources :comments do
-        collection do
-          get "page/:id(.:format)" => :index, as: "page"
-        end
-      end
+			resources :comments
 		end
+    
     resources :pages do
-      collection do
-        get "page/:id(.:format)" => :index
-      end
       resources :comments
     end
 		
     resources :settings
     
     resources :users, param: :username do
-      get "/posts/(page/:id(.:format))" => "posts#index", as: "post_page"
-      collection do
-        get "page/:id(.:format)" => :index, as: "page"
+      member do
+        get "/posts(.:format)" => "posts#index", as: "posts"
+        get "/delete" => :delete
       end
     end
 
-		resources :comments do
-			collection do
-				get "page/:id(.:format)" => :index, as: "page"
-			end
-		end
-		resources :caregories  do
-			collection do
-				get "page/:id(.:format)" => :index
-			end
-		end
-    resources :uploads do
-      collection do
-        get "page/:id(.:format)" => :index
-      end
-    end
+		resources :comments
+		resources :caregories
+    resources :uploads
 	end
 
 	resources :posts, param: :permalink, only: [:index, :show] do
 		collection do
-			get "page/:id(.:format)" => :index, as: 'pages'
-			get "search/:query(/page/:id(.:format))" => :search, as: 'search'
-			get "category/:title(/page/:id(.:format))" => :category
+			get "search/:query(.:format)" => :search, as: 'search'
+			get "category/:title(.:format)" => :category
 		end
     member do
       post :comment
     end
 	end
 
-	resources :authors, only: [:index] do
-		collection do
-			get "page/:id(.:format)" => :index, as: 'authors_pages'
-		end
-	end
+	resources :authors, only: [:index]
 
   resources :files, only: :show
 
-	get	'@:username(.:format)'	=> 'authors#profile', as: 'user_profile'
-  get ':permalink(.:format)' => 'posts#show_page', as: 'show_page'
+	get  '@:username(.:format)'	=> 'authors#profile', as: 'user_profile'
+  get  ':permalink(.:format)' => 'posts#show_page', as: 'show_page'
   post ':permalink/comment(.:format)' => 'posts#comment', as: 'comment_page' 
 	root 'posts#index'
   
