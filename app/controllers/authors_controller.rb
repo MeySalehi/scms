@@ -1,7 +1,7 @@
 class AuthorsController < ApplicationController
   def index
     limit = 4 #set by options
-  	page = params[:id]
+  	page = params[:page]
 		
 		if page == nil
       page = 1

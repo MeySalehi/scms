@@ -19,9 +19,9 @@
 	<% @page_num.times do |p| %>
 		<% p = p + 1 %>
 		<% if p == @current_page %>
-		<b> [ <%= link_to p.to_s, authors_pages_authors_path(p)  %> ] </b>
+		<b> [ <%= link_to p.to_s, authors_path(page: p)  %> ] </b>
 		<% else %>
-			<%= link_to p.to_s, authors_pages_authors_path(p) %>
+			<%= link_to p.to_s, authors_path(page: p) %>
 		<% end %>
 	<% end %>
 <% end %>
