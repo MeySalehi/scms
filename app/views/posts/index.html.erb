@@ -4,9 +4,9 @@
 <% @page_num.times do |p| %>
 	<% p = p + 1 %>
 	<% if p == @current_page %>
-	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<b> [ <%= link_to p.to_s, posts_path(page: p)  %> ] </b>
 	<% else %>
-		<%= link_to p.to_s, pages_posts_path(p)  %>
+		<%= link_to p.to_s, posts_path(page: p)  %>
 	<% end %>
 <% end %>
 <ul>
@@ -22,8 +22,8 @@
 <% @page_num.times do |p| %>
 	<% p = p + 1 %>
 	<% if p == @current_page %>
-	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<b> [ <%= link_to p.to_s, posts_path(page: p)  %> ] </b>
 	<% else %>
-		<%= link_to p.to_s, pages_posts_path(p)  %>
+		<%= link_to p.to_s, posts_path(page: p)  %>
 	<% end %>
 <% end %>

@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   
   def index
 
-    page = params[:id] == nil ? 1 : params[:id].to_i
+    page = params[:page] == nil ? 1 : params[:page].to_i
     limit = 3 #<<< set by options an db
 
     if page == 0
@@ -92,7 +92,7 @@ class PostsController < ApplicationController
   end
 # --------------------------------
   def search
-    page = params[:id] != nil ? params[:id].to_i : 1
+    page = params[:page] != nil ? params[:page].to_i : 1
     limit = 3 # set by otions
     if session[:user_id]
       @posts = Post.search_for_users(params[:query],page,limit)
