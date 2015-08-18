@@ -1,14 +1,22 @@
 <h1>Admin::Users#index</h1>
 <p>Find me in app/views/admin/users/index.html.erb</p>
-
+<% if !flash[:notice].blank? %>
+	<p style="color:green" ><%= flash[:notice] %></p>
+	<hr>
+<% end %>
+<% if !flash[:error].blank? %>
+	<p style="color:red" ><%= flash[:error] %></p>
+	<hr>
+<% end %>
 <% @page_num.times do |p| %>
 	<% p = p + 1 %>
 	<% if p == @current_page %>
-	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<b> [ <%= link_to p.to_s, admin_users_path(page: p)  %> ] </b>
 	<% else %>
-		<%= link_to p.to_s, page_admin_users_path(p)  %>
+		<%= link_to p.to_s, admin_users_path(page: p)  %>
 	<% end %>
 <% end %>
+
 <hr>
 <table>
 	<% @users.each do |user| %>
@@ -26,8 +34,8 @@
 <% @page_num.times do |p| %>
 	<% p = p + 1 %>
 	<% if p == @current_page %>
-	<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+	<b> [ <%= link_to p.to_s, admin_users_path(page: p)  %> ] </b>
 	<% else %>
-		<%= link_to p.to_s, page_admin_users_path(p)  %>
+		<%= link_to p.to_s, admin_users_path(page: p)  %>
 	<% end %>
 <% end %>

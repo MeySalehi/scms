@@ -1,6 +1,10 @@
-<h1>Admin::Users#index</h1>
-<p>Find me in app/views/admin/users/index.html.erb</p>
+<h1>Admin::Users#show</h1>
+<p>Find me in app/views/admin/users/show.html.erb</p>
 <hr>
+<% if !flash[:notice].blank? %>
+	<p style="color:green" ><%= flash[:notice] %></p>
+	<hr>
+<% end %>
 <table>
 	<tr>
 		<th>Name:</th>
@@ -8,7 +12,7 @@
 	</tr>
 	<tr>
 		<th>Email</th>
-		<th><%= @user.public_email %></th>
+		<td><%= link_to @user.public_email %></td>
 	</tr>
 	<tr>
 		<th>Bio</th>
@@ -18,9 +22,13 @@
 		<th>SingUp at:</th>
 		<td><%= @user.created_at %></td>
 	</tr>
-	</table>
+</table>
+<% if (@user.username == session[:username] or session[:access_level] == "ROOT" ) or (@user.access_level == "USER" and session[:access_level] == "ADMIN" ) %>
+	<h4><%= link_to "Edit Profile", edit_admin_user_path(@user.username) %>  <%= link_to "Delete Account", delete_admin_user_path(@user.username) %></h4>
+<% end %>
 	<h4>Recent Posts</h4>
 	<table>
+<% if !@recent_posts.blank? %>
 	<hr>
 	<% @recent_posts.each do |post| %>
 	<tr>
@@ -30,4 +38,7 @@
 	<% end %>
 </table>
 <hr>
-<%= link_to "Show all Posts of #{@user.full_name}", admin_user_post_page_path(user_username: @user.username)%>
+<%= link_to "Show all Posts of #{@user.full_name}", posts_admin_user_path(@user.username)%>
+<% elsif @user.username == session[:username] %>
+<h3 style="color:orange; text-align:center" ><%= link_to "Create your Frist Post!", new_admin_post_path %></h3>
+<% end %>
