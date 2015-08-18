@@ -1,6 +1,17 @@
 <h1>admin/dashboard#index</h1>
 <p>Find me in app/views/admin/dashboard/index.html.erb</p>
 <hr>
+		<span style="padding-right: 30px"><%=link_to "New Post", new_admin_post_path%></span>
+		<span style="padding-right: 30px"><%= link_to "Posts", admin_posts_path %></span>
+		<span style="padding-right: 30px"><%= link_to "Pages", admin_pages_path %></span>
+		<span style="padding-right: 30px"><%= link_to "Media", admin_uploads_path %></span>
+		<span style="padding-right: 30px"><%= link_to "Categories", admin_caregories_path %></span>
+		<span style="padding-right: 30px"><%= link_to "Comments", admin_comments_path %></span>
+		<% if session[:access_level] == "ROOT" or "ADMIN" %>
+			<span style="padding-right: 30px"><%= link_to "Users", admin_users_path %></span>
+		<% end %>
+		<span style="padding-right: 30px"> <%= link_to "Settings", admin_settings_path %></span>
+<hr>
 <h3>Activity</h3>
 <ul>
 	<li>Posts: <%= @activity[:posts] %></li>

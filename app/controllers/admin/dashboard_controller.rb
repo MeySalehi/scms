@@ -32,7 +32,7 @@ class Admin::DashboardController < ApplicationController
 			redirect_to admin_dashboard_index_path
 		else
 			flash[:error] = "Invalid username/password combination."
-			redirect_to admin_login_path
+			redirect_to login_path
 		end
 	end
 	# ---------------------------------------------------
