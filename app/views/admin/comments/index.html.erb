@@ -1,49 +1,54 @@
 <h1>Admin::Comments#index</h1>
 <p>Find me in app/views/admin/comments/index.html.erb</p>
 <hr>
+<% if !flash[:notice].blank? %>
+	<p style="color:green" ><%= flash[:notice] %></p>
+	<hr>
+<% end %>
 <% if @post_id %>
 	<% @page_num.times do |p| %>
 		<% p = p + 1 %>
 		<% if p == @current_page %>
-		<b> [ <%= link_to p.to_s, page_admin_post_comments_path(post_id: @post_id,id: p)  %> ] </b>
+		<b> [ <%= link_to p.to_s, admin_post_comments_path(post_id: @post_id,page: p)  %> ] </b>
 		<% else %>
-			<%= link_to p.to_s, page_admin_post_comments_path(post_id: @post_id,id: p)  %>
+			<%= link_to p.to_s, admin_post_comments_path(post_id: @post_id,page: p)  %>
+		<hr>
 		<% end %>
 	<% end %>
 <% else %>
 	<% @page_num.times do |p| %>
 		<% p = p + 1 %>
 		<% if p == @current_page %>
-		<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+		<b> [ <%= link_to p.to_s, admin_comments_path(page: p)  %> ] </b>
 		<% else %>
-			<%= link_to p.to_s, page_admin_comments_path(p)  %>
+			<%= link_to p.to_s, admin_comments_path(page: p)  %>
 		<% end %>
+		<hr>
 	<% end %>
-<% end %>
-<hr>
-<% if !flash[:notice].blank? %>
-	<p style="color:green" ><%= flash[:notice] %></p>
-	<hr>
 <% end %>
 <% if !@post.blank? %>
 	<h4><%= @post.title %> comments:</h4>
 <% end %>
 <table>
-<% @comments.each do |comment| %>
-	<tr>
-		<td><%= comment.post.title %></td>
-		<%if !comment.user_id.blank? %>
-			<td><%= link_to comment.user.full_name, user_profile_path(comment.user.username) %></td>
-			<td><%= link_to comment.user.public_email %></td>
-		<% else %>
-			<td><%= link_to comment.author, "http://" + comment.author_url %>
-			<td><%= link_to comment.author_email %></td>
-		<% end %>
+<% if @comments.count == 0 %>
+	<h3 style="color:red; text-align:center">not has any comment!</h3>
+<% else %>
+	<% @comments.each do |comment| %>
+		<tr>
+			<td><%= comment.post.title %></td>
+			<%if !comment.user_id.blank? %>
+				<td><%= link_to comment.user.full_name, user_profile_path(comment.user.username) %></td>
+				<td><%= link_to comment.user.public_email %></td>
+			<% else %>
+				<td><%= link_to comment.author, "http://" + comment.author_url %>
+				<td><%= link_to comment.author_email %></td>
+			<% end %>
 			<td><%= comment.content[0..100] %></td>
 			<td><%= comment.created_at %></td>
 			<td><%= comment.approved %></td>
 			<td><%= link_to "Edit", edit_admin_comment_path(comment.id) %></td>
 		</tr>
+	<% end %>
 <% end %>
 </table>
 <hr>
@@ -51,18 +56,18 @@
 	<% @page_num.times do |p| %>
 		<% p = p + 1 %>
 		<% if p == @current_page %>
-		<b> [ <%= link_to p.to_s, page_admin_post_comments_path(post_id: @post_id,id: p)  %> ] </b>
+		<b> [ <%= link_to p.to_s, admin_post_comments_path(post_id: @post_id,page: p)  %> ] </b>
 		<% else %>
-			<%= link_to p.to_s, page_admin_post_comments_path(post_id: @post_id,id: p)  %>
+			<%= link_to p.to_s, admin_post_comments_path(post_id: @post_id,page: p)  %>
 		<% end %>
 	<% end %>
 <% else %>
 	<% @page_num.times do |p| %>
 		<% p = p + 1 %>
 		<% if p == @current_page %>
-		<b> [ <%= link_to p.to_s, pages_posts_path(p)  %> ] </b>
+		<b> [ <%= link_to p.to_s, admin_comments_path(page: p)  %> ] </b>
 		<% else %>
-			<%= link_to p.to_s, page_admin_comments_path(p)  %>
+			<%= link_to p.to_s, admin_comments_path(page: p)  %>
 		<% end %>
 	<% end %>
 <% end %>

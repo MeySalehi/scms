@@ -4,7 +4,7 @@ class Admin::CommentsController < ApplicationController
   ERR404 = "#{Rails.root}/public/404.html"
   def index
     limit = 5 #set by options
-    page = !params[:id].blank? && params[:id].to_i != 0 ? params[:id].to_i : 1
+    page = !params[:page].blank? && params[:page].to_i != 0 ? params[:page].to_i : 1
     post_id = params[:post_id] == nil ? nil : params[:post_id].to_i
     
     if post_id == nil
@@ -23,7 +23,7 @@ class Admin::CommentsController < ApplicationController
     end
 
     if comment_count < limit
-      @page_num = 1
+      @page_num = 0
     elsif (comment_count % limit) == 0
       @page_num = comment_count / limit
     else
