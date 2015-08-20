@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rmagick', '~> 2.15.4'
 gem "paperclip", "~> 4.3"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
