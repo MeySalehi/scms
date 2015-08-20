@@ -27,6 +27,10 @@
 		<td><%= f.label :public_email %></td>
 		<td><%= f.text_field :public_email %></td>
 	</tr>
+	<tr>
+		<td><%= f.label :avatar %></td>
+		<td><%= f.file_field :avatar %></td>
+	</tr>
 	<% if session[:access_level] == "ROOT" %>
 	<tr>
 		<td><%= f.label :access_level %></td>

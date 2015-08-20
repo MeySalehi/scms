@@ -21,6 +21,7 @@
 <table>
 	<% @users.each do |user| %>
 	<tr>
+	<td><%= image_tag user.avatar, size: "30x30" %></td>
 	<td><%= user.access_level.capitalize %></td>
 	<td><%= link_to user.full_name, admin_user_path(user.username) %></td>
 	<td><%= user.username %></td>
