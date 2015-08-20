@@ -34,9 +34,16 @@ class Admin::UsersController < ApplicationController
     @recent_posts = @user.posts.where(type_set: "POST")
                                   .order(updated_at: :desc)
                                     .first(5)
+    @recent_posts.each do |p|
+      puts p.permalink
+    end
     if @user.blank?
       return render ERR404
     end
+  end
+  #------------------------------------------
+  def Profile
+    @user = User.find_by(username: session[:username])
   end
   #------------------------------------------
   def edit
@@ -55,6 +62,8 @@ class Admin::UsersController < ApplicationController
       else
         return render ERR404
       end
+    when params[:username]
+      @user = User.find_by(username: session[:username])
     else
       return render ERR404
     end
@@ -88,7 +97,7 @@ class Admin::UsersController < ApplicationController
       return redirect_to admin_user_path(user.username)
     else
       flash[:error] = "Server Internal Error."
-      return redirect_to new_admin_user
+      return redirect_to new_admin_user_path
     end    
   end
   #------------------------------------------
@@ -101,7 +110,7 @@ class Admin::UsersController < ApplicationController
   #------------------------------------------
   def destroy
     @user = User.find_by(username: params[:user][:username])
-    puts @user
+
     if !@user.blank?
       # cash full_name for flash:
       full_name = @user.full_name
@@ -120,35 +129,48 @@ class Admin::UsersController < ApplicationController
     def update_params
       if params[:user][:username] == session[:username]
         p = params.require(:user)
-              .permit(:full_name, :username, :bio, :email, :public_email)
+              .permit(:full_name, :username, :bio, :email, :public_email, :avatar)
       
       elsif session[:access_level] == "ROOT"
         p = params.require(:user)
-              .permit(:full_name, :username, :bio, :email, :public_email, :access_level)
+              .permit(:full_name, :username, :bio, :email, :public_email, :access_level, :avatar)
       
       elsif session[:access_level] == "ADMIN" and params[:user][:access_level] == "USER"
         p = params.require(:user)
-              .permit(:full_name, :username, :bio, :email, :public_email)
+              .permit(:full_name, :username, :bio, :email, :public_email, :avatar)
       
       else
         p = nil
       end
-      p      
+      return p      
     end
     #---------------------------------------------
     def create_params
-      params.require(:user)
-              .permit(:username,
-                      :password,
-                      :full_name,
-                      :email,
-                      :public_email,
-                      :bio,
-                      :profile_visible,
-                      :avatar,
-                      :access_level)
+      p = params.require(:user)
+                  .permit(:username,
+                          :password,
+                          :full_name,
+                          :email,
+                          :public_email,
+                          :bio,
+                          :profile_visible,
+                          :avatar,
+                          :access_level)
+
+
+      # Upload avatar and save avatar image path
+      return p
     end
     #---------------------------------------------
+    def upload(file_io, username)
+      uploaded_io = file_io
+      puts '************** #{username}_#{uploaded_io.original_filename} ***********'
+      File.open(Rails.root.join('public', 'avatars', '#{username}_#{uploaded_io.original_filename}'), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+      return username + "_avatar"
+    end
+    # before action ------------------------------
     def confrim_access_level
       if session["access_level"] == "ROOT" or "ADMIN"
         return true
