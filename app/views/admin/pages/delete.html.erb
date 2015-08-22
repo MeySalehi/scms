@@ -1,0 +1,15 @@
+<h1>Admin::Pages#delete</h1>
+<p>Find me in app/views/admin/pages/delete.html.erb</p>
+<hr>
+<ul>
+	<li><%= @page.title %></li>
+	<li><%= @page.created_at %></li>
+	<li><%= @page.content %></li>
+	<li><%= @page.status.capitalize %></li>
+	<li><%= @page.comments.count %></li>
+</ul>
+<h3>Are u sure delete this page?</h3>
+<%= form_for(:page, method: "DELETE", url: {action: :destroy}) do |f| %>
+<%= f.hidden_field :id, value: @page.id %>
+<%= f.submit "Yes, I'm Sure", color: "red" %>
+<% end %>
