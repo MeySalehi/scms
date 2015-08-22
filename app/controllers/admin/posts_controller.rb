@@ -2,7 +2,7 @@ class Admin::PostsController < ApplicationController
   before_action :confirm_logged_in
   
   ERR404 = "#{Rails.root}/public/404.html"
-
+  #---------------------------------------------------
   def index
     limit = 2 # set by options
     page = params[:page].to_i == 0 ? 1 : params[:page].to_i
@@ -50,7 +50,7 @@ class Admin::PostsController < ApplicationController
   def edit  
     @post = Post.find(params[:id].to_i)
   end
-
+  #---------------------------------------------------
   def update
     # params = create_params
     post = Post.find(params[:id].to_i)
@@ -63,14 +63,33 @@ class Admin::PostsController < ApplicationController
       return redirect_to new_admin_post_path
     end
   end
-
-  def destroy
+  #---------------------------------------------------
+  def delete
+    post = Post.find_by(id: params[:id].to_i)
+    if !post.blank?
+      @post = post
+    else
+      return render ERR404
+    end
   end
-
+  #---------------------------------------------------
+  def destroy
+    post = Post.find_by(id: params[:post][:id].to_i)
+    if post.destroy
+      flash[:notice] = "Post Successfully Deleted!"
+      return redirect_to admin_posts_path
+    else
+      flash[:error] = "We have an internal Error, please try again!"
+      return redirect_to admin_posts_path
+    end
+  end
+  #---------------------------------------------------
+  
   private
     def create_params
       p = params.require(:post).permit(:id, :title, :permalink, :content, :meta_keywords)
       p[:user_id] = session[:user_id]
+      p[:type_set] = "POST"
       case params.require(:status)
         when "Draft"
            p[:status] = "DRAFT"
