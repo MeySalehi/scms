@@ -16,10 +16,12 @@ Rails.application.routes.draw do
 		
     resources :posts do
 			resources :comments
+      get 'delete', on: :member 
 		end
     
     resources :pages do
       resources :comments
+      get 'delete', on: :member 
     end
 		
     resources :settings
