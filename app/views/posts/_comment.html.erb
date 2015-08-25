@@ -1,0 +1,14 @@
+	<% if comment.user %>
+		<div><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></div>
+	<% else %>
+		<div>
+			<% if !comment.author_url.blank? %>
+				<%= link_to comment.author, "http://" + comment.author_url.to_s %>
+			<% else %>
+				<%= comment.author %>
+			<% end %>
+		 </div>
+	<% end %>
+	<div><%= comment.content %></div>
+	<div><%= comment.created_at %></div>
+	<hr>

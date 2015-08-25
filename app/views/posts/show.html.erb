@@ -8,7 +8,7 @@
 	<ul>
 		<li><h1><%= @post.title %></h1></li>
 		<li>By <%= link_to @post.user.full_name, "/@#{@post.user.username}"%></li>
-		<li><%= @post.content %></li>
+		<li><%= @post.content.html_safe %></li>
 		<li><%= @post.publish_at %></li>
 		<li><%= @post.meta_keywords %></li>
 	</ul>
@@ -48,21 +48,6 @@
 	<% end %>
 	</table>
 	<hr>
-	<ul>
-	<% @post.comments.each do |comment| %>
-		<% if comment.user %>
-			<li><%= link_to  comment.user.full_name, "/@#{comment.user.username}" %></li>
-		<% else %>
-			<li>
-				<% if !comment.author_url.blank? %>
-					<%= link_to comment.author, "http://" + comment.author_url.to_s %>
-				<% else %>
-					<%= comment.author %>
-				<% end %>
-			 </li>
-		<% end %>
-		<li><%= comment.content %></li>
-		<hr>
-	<% end %>
-	</ul>
+	
+	<%= comments_tree_for(@parent_comments) %>
 <% end %>
