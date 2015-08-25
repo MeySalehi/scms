@@ -35,6 +35,7 @@ class PostsController < ApplicationController
     else
       @page_num = (post_count / limit) + 1
     end
+    
     puts page
     @current_page = page
   end
@@ -55,6 +56,7 @@ class PostsController < ApplicationController
     else
       flash[:access_error] = "You Can't Access to this post, please login."
     end
+    @parent_comments = Comment.parent_comments(@post.id)
   end
 # --------------------------------
   def show_page
