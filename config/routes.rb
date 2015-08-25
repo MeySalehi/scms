@@ -15,12 +15,16 @@ Rails.application.routes.draw do
     end
 		
     resources :posts do
-			resources :comments
+      resources :comments, except: [:new] do 
+        get "answer" => :new, on: :member
+      end
       get 'delete', on: :member 
 		end
     
     resources :pages do
-      resources :comments
+      resources :comments, except: [:new] do 
+        get "answer" => :new, on: :member
+      end
       get 'delete', on: :member 
     end
 		
@@ -33,7 +37,9 @@ Rails.application.routes.draw do
       end
     end
 
-		resources :comments
+		resources :comments, except: [:new] do 
+      get "answer" => :new, on: :member
+    end
 		resources :caregories
     resources :uploads
 	end
