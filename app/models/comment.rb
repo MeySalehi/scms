@@ -11,4 +11,7 @@ class Comment < ActiveRecord::Base
 
 	scope :user_posts_comments_count, lambda{ |post_ids|  where(post_id: post_ids).count }
 
+	scope :childs, lambda{ |comment_id| where(parent_id: comment_id, approved: "PUBLIC").order(created_at: :asc)}
+	scope :parent_comments, lambda{|post_id| where(post_id: post_id ,parent_id: nil, approved: "PUBLIC").order(created_at: :asc) }
+
 end
