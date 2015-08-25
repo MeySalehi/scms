@@ -1,0 +1,21 @@
+<h1>Admin::Comments#new</h1>
+<p>Find me in app/views/admin/comments/new.html.erb</p>
+<hr>
+<% if @comment.user_id.blank? %>
+	<h6><%= !@comment.author_url.blank? ? link_to @comment.author , @comment.author_url : @comment.author %></h6>
+<% else %>
+	<h6><%= !@comment.user.username.blank? ? link_to @comment.user.full_name, "/@#{@comment.user.username}" : @comment.user.full_name %></h6>
+<% end %>
+<p><%= @comment.content %></p>
+<p><%= @comment.created_at %></p>
+<hr>
+<table>
+<%= form_for(@answer, method: "POST", url:{action: :create}) do |f| %>
+	<tr>
+		<td><%= session[:full_name] %></td>
+		<%= f.hidden_field :user_id, value: session[:user_id] %>
+		<%= f.hidden_field :
+	</tr>
+
+<% end %>
+</table>
